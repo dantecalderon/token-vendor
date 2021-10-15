@@ -1,6 +1,6 @@
 // deploy/00_deploy_your_contract.js
 
-//const { ethers } = require("hardhat");
+const { ethers } = require("hardhat");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
@@ -8,12 +8,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   await deploy("YourToken", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    //args: [ "Hello", ethers.utils.parseEther("1.5") ],
+    args: [ ethers.utils.parseEther("1010") ],
     log: true,
   });
 
   //Todo: transfer tokens to frontend address
-  // const yourToken = await deployments.get("YourToken");
+  const YourContract = await ethers.getContract("YourToken", deployer);
+  console.log('🤫 Dante ➤ module.exports= ➤ YourContract', YourContract)
+
+  const result = await YourContract.transfer("0x124f0ED4c3BbFF888a932b1dF684bAa1cb082F05", ethers.utils.parseEther("1000"));
+  console.log('🤫 Dante ➤ module.exports= ➤ result', result)
 
   /*
     // Getting a previously deployed contract
