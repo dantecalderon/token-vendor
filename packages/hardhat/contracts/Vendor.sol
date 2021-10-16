@@ -1,20 +1,28 @@
-pragma solidity >=0.6.0 <0.7.0;
+pragma solidity >=0.6.0;
 
-//import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./YourToken.sol";
 
-contract Vendor {
+contract Vendor is Ownable {
+    YourToken yourToken;
 
-  YourToken yourToken;
+    uint256 public constant tokensPerEth = 100;
 
-  constructor(address tokenAddress) public {
-    yourToken = YourToken(tokenAddress);
-  }
+    event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
 
-  //ToDo: create a payable buyTokens() function:
+    constructor(address tokenAddress) public {
+        yourToken = YourToken(tokenAddress);
+    }
 
-  //ToDo: create a sellTokens() function:
+    //ToDo: create a payable buyTokens() function:
+    function buyTokens() public payable {
+        uint256 tokensAmount = msg.value * tokensPerEth;
+        yourToken.transfer(msg.sender, tokensAmount);
+        emit BuyTokens(msg.sender, msg.value, tokensAmount);
+    }
 
-  //ToDo: create a withdraw() function that lets the owner, you can 
-  //use the Ownable.sol import above:
+    //ToDo: create a sellTokens() function:
+
+    //ToDo: create a withdraw() function that lets the owner, you can
+    //use the Ownable.sol import above:
 }
